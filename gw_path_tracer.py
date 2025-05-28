@@ -88,15 +88,15 @@ def get_symbolic_tensor(lat, lon, depth_km, use_prem=True):
         T = np.array([[interpolators[(i, j)](point)[0] for j in range(3)] for i in range(3)])
     return T
 
-def trace_path(event_ra, event_dec, detector_lat, detector_lon, elevation_km, timestamp, steps=100, use_prem=False):
+def trace_path(event_ra, event_dec, detector_lat, detector_lon, elevation_km, timestamp, steps=100, use_prem=True):
     """
     Wrapper function for symbolic curvature tensor computation.
     If use_prem is True, applies the PREM-based kernel.
     """
-    if use_prem:
-        tensor = path_weighted_kernel(detector_lat, detector_lon, elevation_km * 1000, event_ra, event_dec, timestamp, steps)
-        return tensor, None
+    tensor = path_weighted_kernel(detector_lat, detector_lon, elevation_km * 1000, event_ra, event_dec, timestamp, steps)
+    return tensor, None
 
+def trace_path_legacy(event_ra, event_dec, detector_lat, detector_lon, elevation_km, timestamp, steps=200, use_prem=False):
     # Default: original flat-earth approximation
     loc = EarthLocation(lat=detector_lat*u.deg, lon=detector_lon*u.deg, height=elevation_km*1000*u.m)
     t = Time(timestamp)

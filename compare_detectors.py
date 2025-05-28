@@ -2,10 +2,26 @@ import argparse
 import numpy as np
 from astropy.coordinates import EarthLocation
 from datetime import datetime
-from gw_path_tracer import trace_path
+from gw_path_tracer import trace_path, trace_path_legacy
 
 
-def compare_event(event_ra, event_dec, timestamp, prefix, use_prem=True):
+def dynamo_weight(lat, lon, depth_km, time):
+    """
+    Simple symbolic dynamo weight model:
+    - Uses sinusoidal lat-long dependence to mimic core convection rolls.
+    - Applies depth damping and daily magnetic variation modulated by time.
+    """
+    lat_rad = np.radians(lat)
+    lon_rad = np.radians(lon)
+    t = datetime.fromisoformat(time).timestamp()  # seconds since epoch
+
+    # Simulate magnetic dipole component and variation
+    magnetic_variation = np.sin(lat_rad) * np.cos(2 * lon_rad + t * 1e-5)
+    depth_decay = np.exp(-depth_km / 1000.0)  # decay with depth
+    return 1 + 0.01 * magnetic_variation * depth_decay
+
+
+def compare_event(event_ra, event_dec, timestamp, prefix, use_prem=True, use_dynamo=False):
     detectors = {
         "Hanford": EarthLocation(lat=46.455, lon=-119.408, height=142.554),
         "Livingston": EarthLocation(lat=30.563, lon=-90.774, height=-6.574),
@@ -14,15 +30,19 @@ def compare_event(event_ra, event_dec, timestamp, prefix, use_prem=True):
 
     tensors = {}
     for name, loc in detectors.items():
-        tensor, _ = trace_path(
-            event_ra,
-            event_dec,
-            loc.lat.deg,
-            loc.lon.deg,
-            loc.height.to_value('km'),
-            timestamp,
-            use_prem=use_prem
-        )
+        lat = loc.lat.deg
+        lon = loc.lon.deg
+        depth_km = loc.height.to_value('km')
+
+        if use_prem:
+            tensor, _ = trace_path(event_ra, event_dec, lat, lon, depth_km, timestamp)
+        else:
+            tensor, _ = trace_path_legacy(event_ra, event_dec, lat, lon, depth_km, timestamp)
+
+        if use_dynamo:
+            weight = dynamo_weight(lat, lon, depth_km, timestamp)
+            tensor *= weight
+
         tensors[name] = tensor
         print(f"\n→ {name}")
         print(np.round(tensor, 6))
@@ -48,8 +68,16 @@ if __name__ == "__main__":
     parser.add_argument("--timestamp", type=str, required=True, help="UTC timestamp of the GW event")
     parser.add_argument("--prefix", type=str, required=True, help="Output file prefix")
     parser.add_argument("--legacy-symbolic", action="store_true", help="Disable PREM weighting")
+    parser.add_argument("--dynamo-aware", action="store_true", help="Apply symbolic dynamo field adjustment")
     args = parser.parse_args()
 
     print(f"\nComputing symbolic curvature tensors for {args.prefix}...\n")
-    compare_event(args.ra, args.dec, args.timestamp, args.prefix, use_prem=not args.flat)
+    compare_event(
+        args.ra,
+        args.dec,
+        args.timestamp,
+        args.prefix,
+        use_prem=not args.legacy_symbolic,
+        use_dynamo=args.dynamo_aware
+    )
 
