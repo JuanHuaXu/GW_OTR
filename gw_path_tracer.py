@@ -75,16 +75,54 @@ for i in range(3):
             bounds_error=False, fill_value=0
         )
 
-def get_symbolic_tensor(lat, lon, depth):
-    """Interpolates the symbolic curvature tensor at a point"""
-    point = np.array([lat, lon, depth]).reshape(1, -1)  # Force 2D input
-    return np.array([[interpolators[(i, j)](point)[0] for j in range(3)] for i in range(3)])
+# Assumes both interpolators_legacy and interpolators_prem are defined elsewhere
+def get_symbolic_tensor(lat, lon, depth_km, use_prem=True):
+    point = np.array([lat, lon, depth_km])
+    if use_prem:
+        weight = prem_weight(depth_km)
+        # Replace this with a real symbolic tensor if desired, e.g. identity scaled by weight
+        T = np.eye(3) * -1e28 * weight
+    else:
+        # Legacy interpolators
+        point = np.array([lat, lon, depth_km]).reshape(1, -1)  # Force 2D input
+        T = np.array([[interpolators[(i, j)](point)[0] for j in range(3)] for i in range(3)])
+    return T
 
-def trace_path(ra, dec, lat, lon, elev, timestamp, steps=100):
+def trace_path(event_ra, event_dec, detector_lat, detector_lon, elevation_km, timestamp, steps=100, use_prem=True):
     """
-    Wrapper function for symbolic curvature tensor computation using PREM-based kernel.
-    Signature matches the original trace_path function used in comparison scripts.
+    Wrapper function for symbolic curvature tensor computation.
+    If use_prem is True, applies the PREM-based kernel.
     """
-    tensor = path_weighted_kernel(lat, lon, elev, ra, dec, timestamp, steps)
-    return tensor, None  # Maintains compatibility with code expecting (tensor, path)
+    tensor = path_weighted_kernel(detector_lat, detector_lon, elevation_km * 1000, event_ra, event_dec, timestamp, steps)
+    return tensor, None
 
+def trace_path_legacy(event_ra, event_dec, detector_lat, detector_lon, elevation_km, timestamp, steps=200, use_prem=False):
+    # Default: original flat-earth approximation
+    loc = EarthLocation(lat=detector_lat*u.deg, lon=detector_lon*u.deg, height=elevation_km*1000*u.m)
+    t = Time(timestamp)
+    gw_coord = SkyCoord(ra=event_ra*u.deg, dec=event_dec*u.deg)
+    altaz = gw_coord.transform_to(AltAz(obstime=t, location=loc))
+
+    az_rad = altaz.az.radian
+    alt_rad = altaz.alt.radian
+    vx = -np.cos(alt_rad) * np.sin(az_rad)
+    vy = -np.cos(alt_rad) * np.cos(az_rad)
+    vz = -np.sin(alt_rad)
+    v = np.array([vx, vy, vz])
+
+    total_distance = 10000
+    path = []
+    curvature_accum = np.zeros((3, 3))
+    for step in range(steps):
+        f = step / steps
+        pos_km = np.array([
+            detector_lat + v[0] * f * total_distance,
+            detector_lon + v[1] * f * total_distance,
+            elevation_km + v[2] * f * total_distance
+        ])
+        lat, lon, depth = pos_km[0], pos_km[1], max(0, -pos_km[2])
+        T = get_symbolic_tensor(lat, lon, depth, use_prem=False)
+        curvature_accum += T / steps
+        path.append((lat, lon, depth))
+
+    return curvature_accum, path
