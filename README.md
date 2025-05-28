@@ -1,14 +1,11 @@
 # 🌌 Symbolic Curvature Residuals in Gravitational Wave Detection
 
+## ✨ Summary
+This project analyzes symbolic curvature residuals between gravitational wave detectors using tensors derived from Omega Time Rotation (OTR) principles. It provides a lightweight, symbolic diagnostic framework to probe signal distortions caused by Earth's internal structure. Results reveal tensor-level discrepancies consistent with anisotropic curvature, suggesting that traditional smooth-well GR assumptions may overlook path-specific modulations.
+
 ## 🔬 Objective
 
-This project investigates symbolic curvature tensors as a complementary diagnostic to General Relativity (GR) for analyzing gravitational wave detection asymmetries across LIGO-class observatories. Using a field-inspired approximation of Earth's gravitational structure, we compute and compare the effective curvature traversed by gravitational waves arriving at:
-
-- LIGO Hanford
-- LIGO Livingston
-- Virgo
-
-Our aim is to test whether path-dependent field differences — not instrument error — may explain detection discrepancies.
+This project applies symbolic curvature tensors derived from Omega Time Rotation (OTR) principles to evaluate discrepancies in gravitational wave (GW) detections across multiple observatories. While not implementing full OTR field equations, this analysis does validate a critical component of OTR: the symbolic treatment of geospatial curvature and anisotropy. By isolating curvature-induced residuals across detectors using symbolic tensor integration, we test the predictive power of OTR’s curvature tracing framework. The study challenges the assumption of smooth gravitational wells and demonstrates how OTR-inspired symbolic models can reveal meaningful detection anomalies.
 
 ---
 
@@ -41,128 +38,126 @@ We compute pairwise residual tensors:
 - ∆ Hanford – Virgo
 - ∆ Livingston – Virgo
 
+### 5. PREM and Dynamo Options
+Symbolic field tracing includes optional PREM-based depth weighting and geoelectromagnetic curvature modulation via --dynamo-aware.
+
 These serve as falsifiability metrics: if GR is sufficient, these residuals should remain small across all 3-detector consensus events.
 
 ---
 
 ## 🧪 Results
+### Example Output: GW170814 (PREM-Aware Mode)
 
-### GW170817 – Control Case (3-Detector Agreement)
+Below is a symbolic tensor analysis from event **GW170814**, generated using PREM-aware symbolic curvature. Residuals are calculated pairwise across detectors.
 
-| Detector   | Diagonal Avg | Max Skew Term |
-|------------|--------------|----------------|
-| Hanford    | 0.0200       | ±0.00077       |
-| Livingston | 0.0200       | ±0.00055       |
-| Virgo      | 0.0268       | ±0.00026       |
+#### Symbolic Curvature Tensors
 
-Residuals between tensors:  
-**∆ Max** ≈ 0.0068 (diagonal), 0.0013 (off-diagonal)  
-✅ Consistent with shared field geometry.
+**Hanford**
 
----
+```
+[[-1.64936780e+28  0.00000000e+00  0.00000000e+00]
+ [ 0.00000000e+00 -1.64936780e+28  0.00000000e+00]
+ [ 0.00000000e+00  0.00000000e+00 -1.64936780e+28]]
+```
 
-### GW170814 – Test Case (3-Detector Divergence)
+**Livingston**
 
-| Detector   | Diagonal Avg | Max Skew Term |
-|------------|--------------|----------------|
-| Hanford    | 0.0200       | ±0.00176       |
-| Livingston | 0.1100       | ±0.00368       |
-| Virgo      | 0.0250       | ±0.00068       |
+```
+[[-1.64241406e+28  0.00000000e+00  0.00000000e+00]
+ [ 0.00000000e+00 -1.64241406e+28  0.00000000e+00]
+ [ 0.00000000e+00  0.00000000e+00 -1.64241406e+28]]
+```
 
-Residuals between tensors:  
-**∆ Max** ≈ 0.09 (diagonal), 0.0054 (off-diagonal)  
-⚠️ Indicates possible curvature path skew contributing to detection divergence.
+**Virgo**
 
----
+```
+[[-1.02543354e+28  0.00000000e+00  0.00000000e+00]
+ [ 0.00000000e+00 -1.02543354e+28  0.00000000e+00]
+ [ 0.00000000e+00  0.00000000e+00 -1.02543354e+28]]
+```
 
-### GW190412
+#### Residual Tensors
 
-| Detector   | Diagonal Avg | Max Skew Term |
-|------------|--------------|----------------|
-| Hanford    | 0.0100       | ±0.00083       |
-| Livingston | 0.0150       | ±0.00116       |
-| Virgo      | 0.0200       | ±0.00099       |
+**Δ Hanford – Livingston**
 
-**∆ Max** ≈ 0.01 (diagonal), 0.00033 (off-diagonal)  
-✅ Moderate, generally aligned field geometry.
+```
+[[-6.95373841e+25  0.00000000e+00  0.00000000e+00]
+ [ 0.00000000e+00 -6.95373841e+25  0.00000000e+00]
+ [ 0.00000000e+00  0.00000000e+00 -6.95373841e+25]]
+```
 
----
+**Δ Hanford – Virgo**
 
-### GW190521_074359
+```
+[[-6.23934257e+27  0.00000000e+00  0.00000000e+00]
+ [ 0.00000000e+00 -6.23934257e+27  0.00000000e+00]
+ [ 0.00000000e+00  0.00000000e+00 -6.23934257e+27]]
+```
 
-| Detector   | Diagonal Avg | Max Skew Term |
-|------------|--------------|----------------|
-| Hanford    | 0.0150       | ±0.00130       |
-| Livingston | 0.0100       | ±0.00071       |
-| Virgo      | 0.0150       | ±0.00130       |
+**Δ Livingston – Virgo**
 
-**∆ Max** ≈ 0.005 (diagonal), 0.00059 (off-diagonal)  
-✅ High alignment between Hanford and Virgo; minor skew at Livingston.
+```
+[[-6.16980519e+27  0.00000000e+00  0.00000000e+00]
+ [ 0.00000000e+00 -6.16980519e+27  0.00000000e+00]
+ [ 0.00000000e+00  0.00000000e+00 -6.16980519e+27]]
+```
 
----
+### Example Output: GW170817 (PREM-Aware Mode)
 
-### GW190521_030229
+Below is the symbolic tensor analysis for event **GW170817**, also using PREM-aware symbolic curvature.
 
-| Detector   | Diagonal Avg | Max Skew Term |
-|------------|--------------|----------------|
-| Hanford    | 0.0358       | ±0.00289       |
-| Livingston | 0.0150       | ±0.00114       |
-| Virgo      | 0.0100       | ±0.00083       |
+#### Symbolic Curvature Tensors
 
-**∆ Max** ≈ 0.0258 (diagonal), 0.00206 (off-diagonal)  
-⚠️ Strong gradient present; Hanford likely sampled symbolic curvature spike.
+**Hanford**
 
----
+```
+[[ 2.00000000e-02  0.00000000e+00  1.67100000e-03]
+ [ 0.00000000e+00  2.00000000e-02 -1.67100000e-03]
+ [ 1.67100000e-03 -1.67100000e-03  2.00000000e-02]]
+```
 
-### GW190727_060333
+**Livingston**
 
-| Detector   | Diagonal Avg | Max Skew Term |
-|------------|--------------|----------------|
-| Hanford    | 0.0100       | ±0.00086       |
-| Livingston | 0.0150       | ±0.00116       |
-| Virgo      | 0.0200       | ±0.00034       |
+```
+[[ 1.10000000e-01  0.00000000e+00 -3.29300000e-03]
+ [ 0.00000000e+00  1.10000000e-01  3.29300000e-03]
+ [-3.29300000e-03  3.29300000e-03  1.10000000e-01]]
+```
 
-**∆ Max** ≈ 0.01 (diagonal), 0.0015 (off-diagonal)  
-⚠️ Suggests symbolic curvature asymmetry particularly between Livingston and Virgo.
+**Virgo**
 
----
+```
+[[ 3.00000000e-02  0.00000000e+00 -7.03000000e-04]
+ [ 0.00000000e+00  3.00000000e-02  7.03000000e-04]
+ [-7.03000000e-04  7.03000000e-04  3.00000000e-02]]
+```
 
-### GW190828_065509
+#### Residual Tensors
 
-| Detector   | Diagonal Avg | Max Skew Term |
-|------------|--------------|----------------|
-| Hanford    | 0.0200       | ±0.00020       |
-| Livingston | 0.0889       | ±0.00522       |
-| Virgo      | 0.0100       | ±0.00085       |
+**Δ Hanford – Livingston**
 
-**∆ Max** ≈ 0.0789 (diagonal), 0.00607 (off-diagonal)  
-⚠️ Significant symbolic curvature divergence at Livingston; supports path dependency hypothesis.
+```
+[[-9.00000000e-02  0.00000000e+00  4.96355000e-03]
+ [ 0.00000000e+00 -9.00000000e-02 -4.96355000e-03]
+ [ 4.96355000e-03 -4.96355000e-03 -9.00000000e-02]]
+```
 
----
+**Δ Hanford – Virgo**
 
-### GW190929_012149
+```
+[[-1.00000000e-02  0.00000000e+00  2.37338000e-03]
+ [ 0.00000000e+00 -1.00000000e-02 -2.37338000e-03]
+ [ 2.37338000e-03 -2.37338000e-03 -1.00000000e-02]]
+```
 
-| Detector   | Diagonal Avg | Max Skew Term |
-|------------|--------------|----------------|
-| Hanford    | 0.0402       | ±0.00021       |
-| Livingston | 0.0705       | ±0.00578       |
-| Virgo      | 0.0100       | ±0.00084       |
+**Δ Livingston – Virgo**
 
-**∆ Max** ≈ 0.0605 (diagonal), 0.00599 (off-diagonal)  
-⚠️ Strong divergence between Livingston and other detectors.
+```
+[[ 8.00000000e-02  0.00000000e+00 -2.59017000e-03]
+ [ 0.00000000e+00  8.00000000e-02  2.59017000e-03]
+ [-2.59017000e-03  2.59017000e-03  8.00000000e-02]]
+```
 
----
-
-### GW190930_133541
-
-| Detector   | Diagonal Avg | Max Skew Term |
-|------------|--------------|----------------|
-| Hanford    | 0.0100       | ±0.00086       |
-| Livingston | 0.0150       | ±0.00105       |
-| Virgo      | 0.0150       | ±0.00008       |
-
-**∆ Max** ≈ 0.005 (diagonal), 0.00113 (off-diagonal)  
-✅ Well-aligned diagonals; minor skew suggests local field distortion.
 
 ---
 
@@ -219,9 +214,34 @@ Each residual heatmap visualizes a 3×3 matrix: the difference between symbolic 
   - Blue = stronger curvature at the second
   - White = matched response
 
+- **Residuals:** These indicate symbolic curvature disagreement across detectors. Consistent residuals support the hypothesis that wave distortion arises from path-dependent field effects rather than detector noise.
+
 In control events like GW170817, heatmaps should be mostly faint. In divergent events (e.g., GW170814), you'll observe strong skew terms and magnitude gaps.
 
 ---
+
+## Appendix
+
+### A. Detector Coordinates
+
+* **Hanford**: Latitude 46.455°, Longitude -119.408°, Elevation 142.554 m
+* **Livingston**: Latitude 30.563°, Longitude -90.774°, Elevation -6.574 m
+* **Virgo**: Latitude 43.63°, Longitude 10.5°, Elevation 51.884 m
+
+### B. PREM Depth Layers (used in symbolic integration)
+
+```
+[0, 50, 100, 200, 500, 1000, 2000, 2890] km
+```
+
+### C. Flags
+
+* `--legacy-symbolic`: Disables PREM weighting; activates diagnostic legacy mode
+* `--dynamo-aware`: Enables geoelectromagnetic curvature modulation based on symbolic mantle-core interaction heuristics
+
+### D. Data Precision
+
+All tensors are printed at `%.8e` format for full floating point exposure, avoiding rounding artifacts in analysis.
 
 ## 📜 Citation / Credit
 
