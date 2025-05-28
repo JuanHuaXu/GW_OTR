@@ -1,0 +1,10 @@
+Event ID,Max Diagonal Δ,Max Skew Δ,Comments
+GW170817,0.0068,0.0013,Control case; residuals low and symmetric
+GW170814,0.09,0.0054,Major Livingston skew; detection disagreement
+GW190412,0.01,0.00033,Modest diagonal difference
+GW190521_074359,0.005,0.00059,Hanford/Virgo match nearly perfectly
+GW190521_030229,0.0258,0.00206,Strong Hanford skew; large divergence
+GW190727_060333,0.01,0.0015,Virgo curvature flipped direction
+GW190828_065509,0.0788,0.006,Livingston shows very large skew
+GW190929_012149,0.0604,0.006,High Livingston curvature again
+GW190930_133541,0.005,0.00113,Symmetric with minor skew
