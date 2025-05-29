@@ -12,13 +12,15 @@ authors:
 date-released: 2025-05-28
 url: https://github.com/JuanHuaXu/GW_OTR
 version: v0.9.1
-doi: 10.5281/zenodo.XXXXXXX  # Replace with real DOI if uploaded to Zenodo or similar
 license: MIT
 type: software
 repository-code: https://github.com/JuanHuaXu/GW_OTR
 keywords:
   - gravitational waves
+  - Omega Time Rotation
   - OTR
+  - GW170814
+  - GW170817
   - symbolic curvature
   - detection residuals
   - tensor diagnostics
