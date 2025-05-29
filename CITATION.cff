@@ -11,7 +11,7 @@ authors:
     orcid: https://orcid.org/0000-0000-0000-0000  # Optional — adjust/remove as needed
 date-released: 2025-05-28
 url: https://github.com/JuanHuaXu/GW_OTR
-version: 1.0.0
+version: v0.9.1
 doi: 10.5281/zenodo.XXXXXXX  # Replace with real DOI if uploaded to Zenodo or similar
 license: MIT
 type: software
