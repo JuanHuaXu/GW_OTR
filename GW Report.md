@@ -33,7 +33,7 @@ In this project, we model the curvature experienced by gravitational wave (GW) s
 The symbolic tensor per detector is computed as:
 
 $$
-\mathbf{T}_{\text{det}} = \frac{1}{N} \sum_{i=1}^{N} \mathbf{T}_{\text{symb}}(s_i)
+\mathbf{T}\_{\text{det}} = \frac{1}{N} \sum_{i=1}^{N} \mathbf{T}_{\text{symb}}(s_i)
 $$
 
 Where:
