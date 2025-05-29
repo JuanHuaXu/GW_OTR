@@ -68,7 +68,7 @@ $$
 In dynamo-aware mode, we introduce symbolic perturbations aligned with geodynamo rotational structure:
 
 $$
-\mathbf{T}_{\text{dynamo}} = \mathbf{T}_{\text{symb}} + \boldsymbol{\Omega} \cdot \mathbf{B}
+\mathbf{T}\_{\text{dynamo}} = \mathbf{T}_{\text{symb}} + \boldsymbol{\Omega} \cdot \mathbf{B}
 $$
 
 Where:
