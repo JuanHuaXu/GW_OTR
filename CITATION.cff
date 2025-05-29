@@ -4,11 +4,10 @@ title: "Symbolic Curvature Residual Analysis of GW Events Using OTR-Derived Tens
 authors:
   - family-names: Xu
     given-names: Juan Hua
-    orcid: https://orcid.org/0000-0000-0000-0000  # Optional — replace if known
+    affiliation: Independent
   - family-names: ChatGPT
     given-names: OpenAI
     affiliation: OpenAI
-    orcid: https://orcid.org/0000-0000-0000-0000  # Optional — adjust/remove as needed
 date-released: 2025-05-28
 url: https://github.com/JuanHuaXu/GW_OTR
 version: v0.9.1
