@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it using the metadata below."
+title: "Symbolic Curvature Residual Analysis of GW Events Using OTR-Derived Tensors"
+authors:
+  - family-names: Xu
+    given-names: Juan Hua
+    orcid: https://orcid.org/0000-0000-0000-0000  # Optional — replace if known
+  - family-names: ChatGPT
+    given-names: OpenAI
+    affiliation: OpenAI
+    orcid: https://orcid.org/0000-0000-0000-0000  # Optional — adjust/remove as needed
+date-released: 2025-05-28
+url: https://github.com/JuanHuaXu/GW_OTR
+version: 1.0.0
+doi: 10.5281/zenodo.XXXXXXX  # Replace with real DOI if uploaded to Zenodo or similar
+license: MIT
+type: software
+repository-code: https://github.com/JuanHuaXu/GW_OTR
+keywords:
+  - gravitational waves
+  - OTR
+  - symbolic curvature
+  - detection residuals
+  - tensor diagnostics
+
