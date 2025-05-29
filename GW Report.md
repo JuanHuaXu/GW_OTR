@@ -26,6 +26,58 @@ We compute curvature tensors symbolically traced along geodesics from astrophysi
 
 OTR curvature traces are calculated using the symbolic exclusion field and assumed dynamic structure of Earth’s geophysical medium. The symbolic whirlpool model informs localized deviations from idealized propagation, introducing geospatial anisotropies in the symbolic tensor that are further perturbed by subduction zones, mantle convection, and core dynamics when the dynamo flag is enabled.
 
+### Mathematical Formulation
+
+In this project, we model the curvature experienced by gravitational wave (GW) signals as they propagate through the Earth using symbolic tensors derived from Omega Time Rotation (OTR) heuristics. The symbolic curvature tensor Tsymb is accumulated along the geodesic path between the GW source and a given detector, taking into account geospatial depth and rotational structure.
+
+The symbolic tensor per detector is computed as:
+
+$$
+\mathbf{T}_{\text{det}} = \frac{1}{N} \sum_{i=1}^{N} \mathbf{T}_{\text{symb}}(s_i)
+$$
+
+Where:
+
+    Tsymb(si): symbolic tensor evaluated at geospatial segment si
+
+    N: number of segments along the geodesic trace
+
+The residual tensor between any two detectors AA and BB is defined as:
+
+$$
+\Delta \mathbf{T}_{A-B} = \mathbf{T}_A - \mathbf{T}_B
+$$
+
+Each tensor T is a symmetric 3×3 matrix:
+
+$$
+\mathbf{T} =
+\begin{bmatrix}
+T_{xx} & T_{xy} & T_{xz} \\
+T_{yx} & T_{yy} & T_{yz} \\
+T_{zx} & T_{zy} & T_{zz}
+\end{bmatrix}
+$$
+
+In PREM-aware mode, segment weights are derived from the Preliminary Reference Earth Model (PREM) and modulated by depth-dependent profiles:
+
+$$
+w_{\text{prem}}(d) = f(d)
+$$
+
+In dynamo-aware mode, we introduce symbolic perturbations aligned with geodynamo rotational structure:
+
+$$
+\mathbf{T}_{\text{dynamo}} = \mathbf{T}_{\text{symb}} + \boldsymbol{\Omega} \cdot \mathbf{B}
+$$
+
+Where:
+
+    Ω: Earth's angular velocity vector
+
+    B: heuristic magnetic field direction vector (symbolic)
+
+These tensors encode directional anisotropies, allowing us to detect curvature mismatches between detectors exposed to different geophysical paths.
 ## Key Features
 
 * Computes full 3×3 symbolic curvature tensor per detector.
