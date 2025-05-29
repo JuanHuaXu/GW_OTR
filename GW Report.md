@@ -306,4 +306,12 @@ All tensors are printed at `%.8e` format for full floating point exposure, avoid
 
 Symbolic tensor generation toolset based on work by Juan Hua Xu and collaborators. Curvature integration routines and diagnostic framework adapted from internal OTR research libraries. Results reproducible with the repository tools and documented scripts.
 
+### F. Acknowledgements
+
+This project makes use of open gravitational wave data provided by the [LIGO Scientific Collaboration](https://www.ligo.org/), the [Virgo Collaboration](https://www.virgo-gw.eu/), and public data hosted via the [Gravitational Wave Open Science Center (GWOSC)](https://www.gw-openscience.org/).
+
+We acknowledge the significant efforts of the LIGO and Virgo teams in the detection, calibration, and open distribution of GW170814 and GW170817. Their commitment to open science makes this symbolic curvature analysis possible.
+
+The interpretations presented in this work are independently developed and not affiliated with, endorsed by, or representing the views of the LIGO/Virgo Collaborations.
+
 For citation or derivative use, please include attribution to the GW\_OTR project and a reference to this report.
