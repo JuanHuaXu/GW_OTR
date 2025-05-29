@@ -42,7 +42,7 @@ Where:
 
     N: number of segments along the geodesic trace
 
-The residual tensor between any two detectors AA and BB is defined as:
+The residual tensor between any two detectors A and B is defined as:
 
 $$
 \Delta \mathbf{T}_{A-B} = \mathbf{T}_A - \mathbf{T}_B
